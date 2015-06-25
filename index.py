@@ -11,9 +11,6 @@ class FlaskWithHamlish(Flask) :
 
 app = FlaskWithHamlish(__name__)
 
-vectorizer = joblib.load('vec/vec.pkl')
-clf = joblib.load('clf/clf.pkl')
-
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/<mode>", methods=['GET', 'POST'])
 def index(mode=None) :
@@ -25,6 +22,8 @@ def index(mode=None) :
         with open('train/'+str(datetime.datetime.today())+".json", 'w') as f :
             json.dump(data, f, indent=4)
 
+    vectorizer = joblib.load('tmp/vec.pkl')
+    clf = joblib.load('tmp/clf.pkl')
     data = 'json/'+os.listdir("json")[-1]
     data_text = tl.text_list_from_json(data, 'entry')
     data_v = vectorizer.transform(data_text)
