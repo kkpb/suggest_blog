@@ -15,6 +15,7 @@ app = FlaskWithHamlish(__name__)
 @app.route("/<mode>", methods=['GET', 'POST'])
 def index(mode=None) :
     if request.method == 'POST' :
+        print request.form.getlist('useful')
         param = zip(request.form.getlist('text'), request.form.getlist('useful'))
         data = []
         for text, useful in param :
@@ -22,15 +23,16 @@ def index(mode=None) :
         with open('train/'+str(datetime.datetime.today())+".json", 'w') as f :
             json.dump(data, f, indent=4)
 
-    vectorizer = joblib.load('tmp/vec.pkl')
-    clf = joblib.load('tmp/clf.pkl')
+    vectorizer = joblib.load('tmp_v/vec.pkl')
+    print len(vectorizer.get_feature_names())
+    clf = joblib.load('tmp_c/clf.pkl')
     data = 'json/'+os.listdir("json")[-1]
     data_text = tl.text_list_from_json(data, 'entry')
     data_v = vectorizer.transform(data_text)
     data_url = tl.text_list_from_json(data, 'url')
     data_title = tl.text_list_from_json(data, 'title')
     result = zip(data_title, data_url, clf.predict(data_v.todense()), data_text)
-    
+    print clf.predict(data_v.todense())
     headline = "All Blog"
     if mode == 'useful' :
         headline = "Interesting"

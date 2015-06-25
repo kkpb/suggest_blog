@@ -17,8 +17,13 @@ text_v = vectorizer.fit_transform(text_list)
 
 parameters = {'kernel' : ('linear', 'rbf'), 'C' : np.logspace(-4, 4, 10), 'gamma' : np.logspace(-4, 4, 10)}
 clf = grid_search. GridSearchCV(svm.SVC(), parameters, n_jobs = -1)
+
 clf.fit(text_v.todense(), text_cat)
 
-os.system('rm -rf tmp/*')
-joblib.dump(vectorizer, "tmp/vec.pkl")
-joblib.dump(clf, "tmp/clf.pkl")
+print text_cat
+print text_v.toarray()
+print len(vectorizer.get_feature_names())
+os.system('rm -rf tmp_v/*')
+os.system('rm -rf tmp_c/*')
+joblib.dump(vectorizer, "tmp_v/vec.pkl")
+joblib.dump(clf, "tmp_c/clf.pkl")
