@@ -1,0 +1,29 @@
+%h1
+  {{headline}}
+
+%p
+  フィードバック 分類 タイトル URL
+%form action="{{url_for('index')}}" method=post enctype=multipart/form-data
+  {% for (title, url, useful, text) in result %}
+    %input type=hidden name=text value="{{text}}"
+    %p
+      {% if useful == 1 %}
+        %select name=useful
+          %option value=1
+            興味あり
+          %option value=0
+            興味なし
+        {{"興味あり "+title+" "}}
+      {% else %}
+        %select name=useful
+          %option value=0
+            興味なし
+          %option value=1
+            興味あり
+        {{"興味なし "+title+" "}}
+      {% endif %}
+      %a href="{{url}}"
+        {{url}}
+  {% endfor %}
+  %p
+    %input type=submit value="送信"
