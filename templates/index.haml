@@ -1,6 +1,9 @@
 %h1
   {{headline}}
 
+%form action=""{{url_for('index')}}" method="GET"
+  %input type=submit value="更新"
+
 %p
   フィードバック 分類 タイトル URL
 %form action="{{url_for('index')}}" method=post enctype=multipart/form-data

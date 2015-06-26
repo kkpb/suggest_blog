@@ -15,7 +15,6 @@ app = FlaskWithHamlish(__name__)
 @app.route("/<mode>", methods=['GET', 'POST'])
 def index(mode=None) :
     if request.method == 'POST' :
-        print request.form.getlist('useful')
         param = zip(request.form.getlist('text'), request.form.getlist('useful'))
         data = []
         for text, useful in param :
@@ -24,7 +23,6 @@ def index(mode=None) :
             json.dump(data, f, indent=4)
 
     vectorizer = joblib.load('tmp_v/vec.pkl')
-    print len(vectorizer.get_feature_names())
     clf = joblib.load('tmp_c/clf.pkl')
     data = 'json/'+os.listdir("json")[-1]
     data_text = tl.text_list_from_json(data, 'entry')

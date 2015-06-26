@@ -14,7 +14,9 @@ text_cat =map(lambda n : int(n), reduce(lambda a,b : a+b, map(lambda n : tl.text
 
 vectorizer = TfidfVectorizer(analyzer=tl.make_noun_list, min_df=1)
 text_v = vectorizer.fit_transform(text_list)
-
+for i in vectorizer.get_feature_names():
+    print i
+exit()
 parameters = {'kernel' : ('linear', 'rbf'), 'C' : np.logspace(-4, 4, 10), 'gamma' : np.logspace(-4, 4, 10)}
 clf = grid_search. GridSearchCV(svm.SVC(), parameters, n_jobs = -1)
 
